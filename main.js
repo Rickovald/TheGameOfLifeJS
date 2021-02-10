@@ -24,11 +24,50 @@
 	1,3,0,0
 
 	можно и по-другому, например в файле в котором написан массив, но я, пожалуй, сделаю этот вариант только если попросите ибо сейчас 3 часа ночи, а мне на пары в 8)))
-*/
+*/  
+function addTable(matrix) {
+	let columns = 1,
+		rows = 1;
+	console.log(matrix)
+	for (let i = 0; i < Object.keys(matrix).length; i++) {
+		columns = i;
+		for (let j = 0; j < Object.keys(matrix[i]).length; j++) {
+			rows = j;
+			
+		}
+	}
+	columns++;
+	rows++;
+
+	let tableContainer = document.querySelector(".table_container");
+	tableContainer.innerHTML = "";
+	let	table = document.createElement('table'),
+		tableBody = document.createElement('TBODY');
+	table.appendChild(tableBody);
+	for (var i = 0; i < columns; i++) {
+		var tr = document.createElement('TR');
+		tableBody.appendChild(tr);
+		for (var j = 0; j < rows; j++) {
+			var td = document.createElement('TD');
+			if (matrix[i][j]){
+				td.style.backgroundColor = "#000";
+			} else {
+				td.style.backgroundColor = "#fff";
+			}
+			
+			tr.appendChild(td);
+		}
+	}
+	tableContainer.appendChild(table);
+}
+	
 function createMatrix (){
 	let matrixArr = [],
-		rowsM = Math.floor(Math.random() * Math.floor(11)),
-		columnsN = Math.floor(Math.random() * Math.floor(11));
+		maxN = parseInt(prompt("Введите максимальноe кол-во строк", 30)),
+		maxM = parseInt(prompt("Введите максимальноe кол-во столбцов", 30)),
+		
+		rowsM = Math.floor(Math.random() * Math.floor(maxN)),
+		columnsN = Math.floor(Math.random() * Math.floor(maxM));
 
 	for (var i = 0; i < rowsM; i++) {
 		var newRow = [];
@@ -38,6 +77,7 @@ function createMatrix (){
 		}
 		matrixArr.push(newRow);
 	}
+	Object.entries(matrixArr);
 	beginLoop(matrixArr)
 }
 
@@ -63,6 +103,9 @@ function intoArray (lines) {
 	var matrixArr = lines.split("\r\n").map(function(x){return x.split(",").map(Number)});
 	beginLoop(matrixArr)
 }
+
+
+
 console.log('Вызовите функцию toMakeOrToRead(x) чтоб определить создавать ли новую матрицу, 1 - создавать, 0 - не создавать ')
 function toMakeOrToRead(thatIsTheQuestion){
 	if (thatIsTheQuestion) {
@@ -119,6 +162,7 @@ var rewriteField = function(inputField) {
 };
   
 var beginLoop = function (startMatrix) {
+	addTable (startMatrix)
 	console.log("start array");
 	console.log(startMatrix);
 	let nextArr = startMatrix;
@@ -127,6 +171,7 @@ var beginLoop = function (startMatrix) {
 		nextArr = rewriteField(nextArr);
 		console.log(t + ' change');
 		console.log(nextArr);
+		addTable (nextArr)
 		t++;
 	},1000);
 };
